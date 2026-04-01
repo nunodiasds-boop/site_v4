@@ -1,0 +1,749 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cólica Renal · Grupo Próstata · ULS São João</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:      #f5f4f0;
+  --bg2:     #eeece7;
+  --white:   #ffffff;
+  --navy:    #0f1f3d;
+  --navy2:   #1a3260;
+  --teal:    #0a7ea4;
+  --teal2:   #0891b2;
+  --teal-lt: #e0f2f7;
+  --gold:    #b86a10;
+  --gold-lt: #fef3e2;
+  --red:     #be2d2d;
+  --red-lt:  #fee2e2;
+  --green:   #166534;
+  --green-lt:#dcfce7;
+  --blue:    #1a56a0;
+  --blue-lt: #deeaf8;
+  --orange:  #b84a10;
+  --orange-lt:#fdeede;
+  --text:    #0f1f3d;
+  --text2:   #374151;
+  --muted:   #6b7280;
+  --border:  #d4d0c8;
+  --border2: #e8e5df;
+  --sidebar: 210px;
+  --topbar:  44px;
+  --shadow:  0 1px 3px rgba(0,0,0,0.08), 0 4px 16px rgba(0,0,0,0.05);
+  --shadow-md:0 4px 12px rgba(0,0,0,0.10), 0 8px 28px rgba(0,0,0,0.07);
+}
+*,*::before,*::after { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:'DM Sans',sans-serif; background:var(--bg); color:var(--text); overflow:hidden; height:100vh; width:100vw; }
+
+/* ── SIDEBAR ── */
+#sidebar { position:fixed; left:0; top:0; bottom:0; width:var(--sidebar); background:var(--white); border-right:1px solid var(--border); overflow-y:auto; z-index:200; display:flex; flex-direction:column; }
+#sidebar::-webkit-scrollbar { width:3px; }
+#sidebar::-webkit-scrollbar-track { background:transparent; }
+#sidebar::-webkit-scrollbar-thumb { background:var(--border); border-radius:2px; }
+.sb-head { padding:16px 14px 12px; border-bottom:1px solid var(--border2); flex-shrink:0; }
+.sb-back { display:flex; align-items:center; gap:6px; text-decoration:none; color:var(--muted); font-size:11px; font-weight:500; margin-bottom:10px; transition:color .15s; }
+.sb-back:hover { color:var(--teal); }
+.sb-back svg { width:14px; height:14px; flex-shrink:0; }
+.sb-title { font-family:'DM Serif Display',serif; font-size:14px; color:var(--navy); line-height:1.2; letter-spacing:-.2px; }
+.sb-sub { font-size:11px; color:var(--muted); margin-top:2px; }
+#chapter-nav { flex:1; padding:8px 0 20px; }
+.chapter-group { margin-bottom:2px; }
+.chapter-header { padding:7px 14px; font-size:10px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; color:var(--muted); cursor:pointer; display:flex; align-items:center; gap:7px; transition:color .15s; user-select:none; }
+.chapter-header:hover { color:var(--teal); }
+.chapter-header.active { color:var(--teal2); }
+.ch-dot { width:5px; height:5px; border-radius:50%; background:var(--border); flex-shrink:0; transition:background .2s; }
+.chapter-header.active .ch-dot { background:var(--teal2); }
+.slide-btn { display:block; width:100%; padding:5px 14px 5px 26px; font-size:12px; color:var(--muted); background:none; border:none; cursor:pointer; text-align:left; transition:all .12s; line-height:1.35; font-family:'DM Sans',sans-serif; }
+.slide-btn:hover { color:var(--text2); background:var(--bg); }
+.slide-btn.active { color:var(--teal); background:var(--teal-lt); border-left:2px solid var(--teal2); padding-left:24px; font-weight:600; }
+
+/* ── TOPBAR ── */
+#topbar { position:fixed; top:0; left:var(--sidebar); right:0; height:var(--topbar); background:var(--white); border-bottom:1px solid var(--border); display:flex; align-items:center; justify-content:space-between; padding:0 20px; z-index:150; box-shadow:0 1px 0 rgba(0,0,0,.04); }
+#topbar-chapter { font-size:12px; font-weight:600; color:var(--muted); letter-spacing:.2px; }
+.tb-right { display:flex; align-items:center; gap:12px; }
+#counter { font-size:13px; color:var(--muted); font-weight:500; font-variant-numeric:tabular-nums; }
+#counter b { color:var(--navy); }
+.nav-btn { width:30px; height:30px; background:var(--bg); border:1px solid var(--border); border-radius:6px; color:var(--muted); font-size:14px; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:all .12s; }
+.nav-btn:hover { background:var(--navy); color:white; border-color:var(--navy); }
+
+/* ── MAIN ── */
+#main { position:fixed; left:var(--sidebar); top:var(--topbar); right:0; bottom:4px; overflow:hidden; background:var(--bg); }
+
+/* ── SLIDES ── */
+.slide { position:absolute; inset:0; display:flex; flex-direction:column; justify-content:center; align-items:center; padding:40px 56px; opacity:0; pointer-events:none; transition:opacity .35s ease,transform .35s ease; transform:translateX(24px); }
+.slide.active { opacity:1; pointer-events:all; transform:translateX(0); }
+.slide.exit { opacity:0; transform:translateX(-24px); }
+
+/* ── TYPOGRAPHY ── */
+.eyebrow { font-size:11px; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:var(--teal2); margin-bottom:10px; text-align:center; }
+.eyebrow.orange { color:var(--orange); }
+.slide-title { font-family:'DM Serif Display',serif; font-size:clamp(26px,3.5vw,46px); color:var(--navy); text-align:center; line-height:1.1; letter-spacing:-.5px; margin-bottom:28px; }
+.slide-title em { color:var(--teal2); font-style:italic; }
+.slide-title.red em { color:var(--red); }
+.slide-title.orange em { color:var(--orange); }
+.divider { width:48px; height:3px; background:var(--teal2); border-radius:2px; margin:0 auto 22px; }
+.divider.red { background:var(--red); }
+.divider.orange { background:var(--orange); }
+
+/* stat */
+.stat-giant { font-family:'DM Serif Display',serif; font-size:clamp(80px,13vw,160px); line-height:.9; color:var(--navy); letter-spacing:-3px; text-align:center; }
+.stat-giant.teal { color:var(--teal2); }
+.stat-giant.orange { color:var(--orange); }
+.stat-giant.red { color:var(--red); }
+.stat-label { font-size:clamp(14px,1.6vw,20px); color:var(--muted); font-weight:300; text-align:center; margin-top:12px; max-width:540px; line-height:1.5; }
+.stat-label strong { color:var(--text2); font-weight:600; }
+.dual-stat { display:flex; gap:60px; align-items:center; justify-content:center; }
+.dual-divider { width:1px; height:120px; background:var(--border); }
+
+/* cards row */
+.cards-row { display:flex; gap:16px; width:100%; max-width:860px; justify-content:center; }
+.card { background:var(--white); border:1px solid var(--border); border-radius:12px; padding:22px 18px; flex:1; text-align:center; box-shadow:var(--shadow); position:relative; overflow:hidden; }
+.card::after { content:''; position:absolute; bottom:0; left:0; right:0; height:3px; }
+.card.teal::after  { background:var(--teal2); }
+.card.gold::after  { background:var(--gold);  }
+.card.red::after   { background:var(--red);   }
+.card.green::after { background:var(--green); }
+.card.orange::after{ background:var(--orange);}
+.card.blue::after  { background:var(--blue);  }
+.card.muted::after { background:var(--border); }
+.card-num { font-family:'DM Serif Display',serif; font-size:clamp(34px,5vw,58px); line-height:1; color:var(--navy); letter-spacing:-1px; }
+.card.teal .card-num  { color:var(--teal2); }
+.card.gold .card-num  { color:var(--gold);  }
+.card.red .card-num   { color:var(--red);   }
+.card.green .card-num { color:var(--green); }
+.card.orange .card-num{ color:var(--orange);}
+.card-label { font-size:12px; color:var(--muted); margin-top:8px; line-height:1.4; }
+.card-desc  { font-size:11px; color:#9ca3af; margin-top:5px; }
+
+/* list */
+.slide-list { list-style:none; width:100%; max-width:700px; }
+.slide-list li { display:flex; align-items:flex-start; gap:12px; padding:11px 0; border-bottom:1px solid var(--border2); font-size:clamp(13.5px,1.55vw,17px); color:var(--text2); line-height:1.45; }
+.slide-list li:last-child { border-bottom:none; }
+.li-icon { width:7px; height:7px; border-radius:50%; flex-shrink:0; margin-top:7px; }
+.li-teal   { background:var(--teal2);  }
+.li-gold   { background:var(--gold);   }
+.li-red    { background:var(--red);    }
+.li-green  { background:var(--green);  }
+.li-navy   { background:var(--navy);   }
+.li-orange { background:var(--orange); }
+
+/* highlight box */
+.hl-box { background:var(--white); border:1px solid var(--border); border-left:4px solid var(--teal2); border-radius:10px; padding:22px 26px; max-width:680px; box-shadow:var(--shadow); }
+.hl-box p { font-size:clamp(14px,1.6vw,18px); color:var(--text2); line-height:1.6; font-weight:300; }
+.hl-box p strong { color:var(--navy); font-weight:600; }
+.hl-box.gold   { border-left-color:var(--gold);   }
+.hl-box.red    { border-left-color:var(--red);    }
+.hl-box.orange { border-left-color:var(--orange); }
+.hl-box.green  { border-left-color:var(--green);  }
+.hl-box .source { margin-top:10px; font-size:11px; color:var(--muted); font-style:italic; }
+
+/* flow */
+.flow-box { background:var(--white); border:1.5px solid var(--border); border-radius:8px; padding:11px 16px; font-size:13.5px; font-weight:500; color:var(--text2); box-shadow:0 1px 3px rgba(0,0,0,.05); }
+.flow-box.teal   { border-color:var(--teal2);  background:var(--teal-lt);  color:var(--teal);   }
+.flow-box.gold   { border-color:var(--gold);   background:var(--gold-lt);  color:var(--gold);   }
+.flow-box.red    { border-color:var(--red);    background:var(--red-lt);   color:var(--red);    }
+.flow-box.green  { border-color:var(--green);  background:var(--green-lt); color:var(--green);  }
+.flow-box.orange { border-color:var(--orange); background:var(--orange-lt);color:var(--orange); }
+.flow-box.blue   { border-color:var(--blue);   background:var(--blue-lt);  color:var(--blue);   }
+.flow-arrow { font-size:18px; color:var(--border); flex-shrink:0; }
+.flow-result { font-size:12.5px; color:var(--muted); padding:10px 14px; background:var(--bg); border-radius:6px; border:1px solid var(--border2); flex:1; }
+.flow-result strong { color:var(--navy); }
+.flow-row { display:flex; align-items:center; gap:10px; margin-bottom:10px; }
+
+/* drug table */
+.drug-table { width:100%; max-width:820px; border-collapse:separate; border-spacing:0; font-size:12px; border:1px solid var(--border); border-radius:10px; overflow:hidden; box-shadow:var(--shadow); }
+.drug-table th { padding:9px 14px; font-size:10.5px; font-weight:700; letter-spacing:.8px; text-transform:uppercase; text-align:left; }
+.drug-table th.th-class { background:var(--bg2); color:var(--muted); width:22%; }
+.drug-table th.th-drug  { background:var(--navy); color:white; width:28%; }
+.drug-table th.th-dose  { background:var(--navy); color:white; width:50%; }
+.drug-table td { padding:9px 14px; border-bottom:1px solid var(--border2); color:var(--text2); vertical-align:middle; line-height:1.4; background:var(--white); }
+.drug-table tr:last-child td { border-bottom:none; }
+.drug-table .td-class { background:var(--bg2) !important; color:var(--muted); font-size:11px; font-weight:600; text-transform:uppercase; letter-spacing:.5px; border-right:1px solid var(--border2); }
+.drug-table .td-main { font-weight:700; color:var(--navy); }
+.drug-table .td-alt { color:var(--muted); font-style:italic; }
+.drug-table .drug-highlight { font-weight:700; color:var(--orange); }
+
+/* criteria box */
+.crit-box { background:var(--white); border:1.5px solid; border-radius:10px; padding:16px 20px; box-shadow:var(--shadow); }
+.crit-box.red    { border-color:rgba(190,45,45,.3); }
+.crit-box.orange { border-color:rgba(184,74,16,.3); }
+.crit-box.green  { border-color:rgba(22,101,52,.3); }
+.crit-title { font-size:11px; font-weight:700; letter-spacing:1.2px; text-transform:uppercase; margin-bottom:10px; }
+.crit-title.red    { color:var(--red);    }
+.crit-title.orange { color:var(--orange); }
+.crit-title.green  { color:var(--green);  }
+.crit-item { display:flex; align-items:flex-start; gap:8px; font-size:12.5px; color:var(--text2); line-height:1.4; margin-bottom:6px; }
+.crit-item:last-child { margin-bottom:0; }
+.crit-dot { width:6px; height:6px; border-radius:50%; flex-shrink:0; margin-top:5px; }
+
+/* imaging comparison */
+.img-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; width:100%; max-width:820px; }
+.img-card { background:var(--white); border:1px solid var(--border); border-radius:10px; padding:18px 16px; box-shadow:var(--shadow); position:relative; }
+.img-card-badge { font-size:10px; font-weight:700; letter-spacing:.5px; text-transform:uppercase; padding:2px 8px; border-radius:20px; display:inline-block; margin-bottom:10px; }
+.img-card h4 { font-family:'DM Serif Display',serif; font-size:15px; color:var(--navy); margin-bottom:8px; }
+.img-card p { font-size:12px; color:var(--muted); line-height:1.5; }
+
+/* ref tag */
+.ref-tag { position:absolute; bottom:12px; right:20px; font-size:10px; color:var(--muted); opacity:.7; font-style:italic; }
+
+/* two-col */
+.two-col { display:grid; grid-template-columns:1fr 1fr; gap:20px; width:100%; max-width:820px; align-items:start; }
+
+/* animations */
+.slide.active .slide-list li,
+.slide.active .cards-row .card,
+.slide.active .flow-row,
+.slide.active .crit-box,
+.slide.active .img-card { animation:fadeUp .4s both; }
+.slide.active .slide-list li:nth-child(1),.slide.active .cards-row .card:nth-child(1),.slide.active .flow-row:nth-child(1),.slide.active .crit-box:nth-child(1),.slide.active .img-card:nth-child(1){ animation-delay:.05s; }
+.slide.active .slide-list li:nth-child(2),.slide.active .cards-row .card:nth-child(2),.slide.active .flow-row:nth-child(2),.slide.active .crit-box:nth-child(2),.slide.active .img-card:nth-child(2){ animation-delay:.11s; }
+.slide.active .slide-list li:nth-child(3),.slide.active .cards-row .card:nth-child(3),.slide.active .flow-row:nth-child(3),.slide.active .crit-box:nth-child(3),.slide.active .img-card:nth-child(3){ animation-delay:.17s; }
+.slide.active .slide-list li:nth-child(4),.slide.active .cards-row .card:nth-child(4),.slide.active .flow-row:nth-child(4){ animation-delay:.23s; }
+.slide.active .slide-list li:nth-child(5),.slide.active .flow-row:nth-child(5){ animation-delay:.29s; }
+.slide.active .slide-list li:nth-child(6){ animation-delay:.35s; }
+.slide.active .stat-giant { animation:popIn .5s cubic-bezier(.22,1,.36,1) .08s both; }
+@keyframes fadeUp { from{opacity:0;transform:translateY(14px)} to{opacity:1;transform:translateY(0)} }
+@keyframes popIn  { from{opacity:0;transform:scale(.88)} to{opacity:1;transform:scale(1)} }
+
+/* progress */
+#progress { position:fixed; bottom:0; left:var(--sidebar); right:0; height:4px; background:var(--border2); z-index:200; }
+#progress-fill { height:100%; background:var(--teal2); transition:width .3s ease; }
+</style>
+</head>
+<body>
+
+<nav id="sidebar">
+  <div class="sb-head">
+    <a href="index.html" class="sb-back">
+      <svg fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+      Biblioteca
+    </a>
+    <div class="sb-title">Cólica Renal</div>
+    <div class="sb-sub">Procedimento · ULS São João · 2026</div>
+  </div>
+  <div id="chapter-nav"></div>
+</nav>
+
+<div id="topbar">
+  <div id="topbar-chapter">–</div>
+  <div class="tb-right">
+    <div id="counter"><b id="cur">1</b> / <span id="tot">–</span></div>
+    <button class="nav-btn" id="btn-prev">&#8592;</button>
+    <button class="nav-btn" id="btn-next">&#8594;</button>
+  </div>
+</div>
+
+<main id="main"></main>
+<div id="progress"><div id="progress-fill"></div></div>
+
+<script>
+const chapters = [
+
+  /* ══════════════════════════════════════════════════════
+     1. CONTEXTO
+  ══════════════════════════════════════════════════════ */
+  { id:'contexto', name:'1. Contexto', slides:[
+
+    { lbl:'Epidemiologia da litíase renal',
+      render:()=>`
+      <div class="eyebrow">Contexto — Epidemiologia</div>
+      <div class="slide-title">Litíase Renal — <em>dados-chave</em></div>
+      <div class="divider"></div>
+      <div class="cards-row">
+        <div class="card orange">
+          <div class="card-num">10%</div>
+          <div class="card-label">prevalência na população geral</div>
+          <div class="card-desc">EAU Guidelines Urolithiasis, 2026</div>
+        </div>
+        <div class="card red">
+          <div class="card-num">50%</div>
+          <div class="card-label">recorrência<br>aos 10 anos</div>
+          <div class="card-desc">sem tratamento preventivo</div>
+        </div>
+        <div class="card teal">
+          <div class="card-num">Cólica</div>
+          <div class="card-label">manifestação mais comum — <br>causa frequente de recurso ao SU</div>
+        </div>
+      </div>
+      <div class="ref-tag">EAU Guidelines on Urolithiasis, 2026 · ULS São João, Procedimento Cólica Renal, 2026.02.10</div>`
+    },
+
+    { lbl:'Fisiopatologia e apresentação clínica',
+      render:()=>`
+      <div class="eyebrow">Apresentação Clínica</div>
+      <div class="slide-title">O que acontece <em>na cólica renal</em>?</div>
+      <div class="divider"></div>
+      <div class="hl-box orange" style="max-width:700px;margin-bottom:20px">
+        <p>O cálculo passa do rim para o ureter → contração peristáltica → encravamento → <strong>obstrução ureteral</strong> → ureterohidronefrose → <strong>dor em cólica</strong>.</p>
+      </div>
+      <ul class="slide-list" style="max-width:680px">
+        <li><div class="li-icon li-orange"></div><span><strong>Dor:</strong> flanco/lombar, irradiação inguinal e genitais — intensidade variável, frequentemente excruciante, sem posição antálgica</span></li>
+        <li><div class="li-icon li-teal"></div><span><strong>Sintomas neurovegetativo:</strong> palidez, diaforese, náuseas, vómitos</span></li>
+        <li><div class="li-icon li-gold"></div><span><strong>LUTS associados:</strong> urgência e disúria (cálculo no ureter distal) — não implica infecção</span></li>
+        <li><div class="li-icon li-red"></div><span><strong>Hematúria</strong> (macro ou micro) — presente na maioria, mas a <em>ausência não exclui</em> o diagnóstico</span></li>
+      </ul>
+      <div class="ref-tag">ULS São João · Procedimento Cólica Renal, 2026.02.10</div>`
+    },
+
+  ]},
+
+  /* ══════════════════════════════════════════════════════
+     2. DIAGNÓSTICO DIFERENCIAL
+  ══════════════════════════════════════════════════════ */
+  { id:'ddx', name:'2. Diagnóstico Diferencial', slides:[
+
+    { lbl:'Diagnósticos diferenciais',
+      render:()=>`
+      <div class="eyebrow">Quadro 2 — Diagnóstico Diferencial</div>
+      <div class="slide-title">Diagnósticos <em>Diferenciais</em> a Excluir</div>
+      <div class="divider red"></div>
+      <div class="two-col" style="max-width:760px">
+        <ul class="slide-list">
+          <li><div class="li-icon li-red"></div><span>Dissecção da aorta</span></li>
+          <li><div class="li-icon li-red"></div><span>Pancreatite aguda</span></li>
+          <li><div class="li-icon li-red"></div><span>Doença Inflamatória Intestinal</span></li>
+          <li><div class="li-icon li-red"></div><span>Processos infecciosos intra-abdominais</span></li>
+          <li><div class="li-icon li-gold"></div><span>Patologia péptica</span></li>
+        </ul>
+        <ul class="slide-list">
+          <li><div class="li-icon li-gold"></div><span>Trombose da veia renal</span></li>
+          <li><div class="li-icon li-gold"></div><span>Infecção urinária / Pielonefrite</span></li>
+          <li><div class="li-icon li-teal"></div><span>Trabalho de parto ou abortamento</span></li>
+          <li><div class="li-icon li-teal"></div><span>Patologia osteoarticular</span></li>
+        </ul>
+      </div>
+      <div style="margin-top:16px;background:var(--red-lt);border:1px solid rgba(190,45,45,.2);border-radius:8px;padding:12px 18px;max-width:720px;font-size:13px;color:var(--red)">
+        ⚠️ A <strong>febre</strong> deve levantar suspeita de <strong>pielonefrite</strong> — pode apresentar-se com dor semelhante à cólica renal
+      </div>
+      <div class="ref-tag">ULS São João · Procedimento Cólica Renal, 2026.02.10</div>`
+    },
+
+    { lbl:'Situações de risco — despiste de complicações',
+      render:()=>`
+      <div class="eyebrow">Quadro 3 — Complicações</div>
+      <div class="slide-title">Situações que exigem <em>despiste de complicações</em></div>
+      <div class="divider red"></div>
+      <div class="cards-row" style="max-width:780px">
+        <div class="card red">
+          <div style="font-size:20px;margin-bottom:8px">🚨</div>
+          <div style="font-size:12px;font-weight:700;color:var(--red);margin-bottom:8px">ALTO RISCO</div>
+          <div class="card-label" style="text-align:left;line-height:1.7">
+            Transplante renal<br>
+            Rim único<br>
+            Imunossupressão<br>
+            Anúria / Oligúria
+          </div>
+        </div>
+        <div class="card gold">
+          <div style="font-size:20px;margin-bottom:8px">⚠️</div>
+          <div style="font-size:12px;font-weight:700;color:var(--gold);margin-bottom:8px">ATENÇÃO</div>
+          <div class="card-label" style="text-align:left;line-height:1.7">
+            Suspeita de ITU / Pielonefrite<br>
+            (febre + queixas urinárias)<br>
+            Dor refratária a analgesia<br>
+            Dor recorrente
+          </div>
+        </div>
+      </div>
+      <div class="ref-tag">ULS São João · Procedimento Cólica Renal, 2026.02.10</div>`
+    },
+
+  ]},
+
+  /* ══════════════════════════════════════════════════════
+     3. ABORDAGEM DIAGNÓSTICA
+  ══════════════════════════════════════════════════════ */
+  { id:'diagnostico', name:'3. Abordagem Diagnóstica', slides:[
+
+    { lbl:'Algoritmo de abordagem inicial',
+      render:()=>`
+      <div class="eyebrow">Algoritmo de Abordagem</div>
+      <div class="slide-title">Abordagem <em>Inicial</em> na Urgência</div>
+      <div class="divider"></div>
+      <div style="width:100%;max-width:720px">
+        <div style="background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:14px 20px;text-align:center;font-size:14px;font-weight:600;color:var(--text2);margin-bottom:16px">
+          Dúvida diagnóstica <span style="color:var(--muted);font-weight:400">ou</span> Suspeita de complicação?
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+          <div>
+            <div style="text-align:center;font-size:13px;font-weight:700;color:var(--green);margin-bottom:10px">✓ NÃO → Analgesia imediata</div>
+            <div class="flow-box green" style="font-size:13px;line-height:1.6">
+              1ª linha: <strong>Cetorolac 30 mg ev</strong><br>
+              2ª linha: Morfina / Paracetamol ev<br>
+              Anti-emético se náusea/vómitos
+            </div>
+          </div>
+          <div>
+            <div style="text-align:center;font-size:13px;font-weight:700;color:var(--orange);margin-bottom:10px">⚠️ SIM → MCDT primeiro</div>
+            <div class="flow-box orange" style="font-size:13px;line-height:1.6">
+              Hemograma · Creatinina<br>
+              Ionograma · PCR · Combur®<br>
+              <strong>Ecografia renovesical</strong>
+            </div>
+          </div>
+        </div>
+        <div style="margin-top:14px;text-align:center;font-size:12.5px;color:var(--muted)">
+          Após analgesia → avaliar resposta → se <strong style="color:var(--red)">má resposta ou critérios de complicação</strong> → Contactar Urologia
+        </div>
+      </div>
+      <div class="ref-tag">ULS São João · Procedimento Cólica Renal, 2026.02.10</div>`
+    },
+
+    { lbl:'Exames de imagem — qual escolher',
+      render:()=>`
+      <div class="eyebrow">Quadro 4 — Diagnóstico por Imagem</div>
+      <div class="slide-title">Qual exame de <em>imagem</em> escolher?</div>
+      <div class="divider"></div>
+      <div class="img-grid">
+        <div class="img-card">
+          <div class="img-card-badge" style="background:var(--bg2);color:var(--muted)">3ª opção</div>
+          <h4>RX Renovesical</h4>
+          <p>Algum interesse para cálculos radiopacos. Pode orientar o diagnóstico mas com baixa sensibilidade.</p>
+        </div>
+        <div class="img-card" style="border-color:var(--teal2)">
+          <div class="img-card-badge" style="background:var(--teal-lt);color:var(--teal)">✓ 1ª opção prática</div>
+          <h4>Ecografia Renovesical</h4>
+          <p>Sensível para <strong>obstrução urinária</strong>. Sem radiação. Mais disponível. Suficiente quando suspeita clínica elevada e sem suspeita de diagnóstico alternativo.</p>
+        </div>
+        <div class="img-card" style="border-color:var(--orange)">
+          <div class="img-card-badge" style="background:var(--orange-lt);color:var(--orange)">Gold standard</div>
+          <h4>TC Renovesical s/ contraste</h4>
+          <p>Maior sensibilidade para visualizar o cálculo. Exame de eleição. Reservar para dúvidas diagnósticas ou suspeita de complicações.</p>
+        </div>
+      </div>
+      <div style="margin-top:14px;background:var(--gold-lt);border:1px solid rgba(184,106,16,.2);border-radius:8px;padding:11px 18px;max-width:780px;font-size:12.5px;color:var(--text2)">
+        💡 <strong>Nota:</strong> Dilatação ureteral ou do bacinete sem cálculo visível pode indicar cálculo já expelido. Sem suspeita de complicações, investigação pode ser feita em ambulatório.
+      </div>
+      <div class="ref-tag">ULS São João · Procedimento Cólica Renal, 2026.02.10</div>`
+    },
+
+    { lbl:'MCDT — análises a pedir',
+      render:()=>`
+      <div class="eyebrow">Quadro 4 — Análises</div>
+      <div class="slide-title">Meios Complementares <em>de Diagnóstico</em></div>
+      <div class="divider"></div>
+      <div class="cards-row" style="max-width:760px">
+        <div class="card teal">
+          <div style="font-size:22px;margin-bottom:8px">🩸</div>
+          <div style="font-size:12px;font-weight:700;color:var(--navy);margin-bottom:6px">Hemograma</div>
+          <div class="card-label">GB ≥16×10⁹/L → sinal de complicação infecciosa</div>
+        </div>
+        <div class="card orange">
+          <div style="font-size:22px;margin-bottom:8px">🧪</div>
+          <div style="font-size:12px;font-weight:700;color:var(--navy);margin-bottom:6px">Creatinina · Ionograma</div>
+          <div class="card-label">Creatinina ≥1,5 mg/dl → deterioração função renal</div>
+        </div>
+        <div class="card red">
+          <div style="font-size:22px;margin-bottom:8px">🔥</div>
+          <div style="font-size:12px;font-weight:700;color:var(--navy);margin-bottom:6px">PCR</div>
+          <div class="card-label">PCR ≥150 mg/L → elevação significativa de marcadores inflamatórios</div>
+        </div>
+        <div class="card gold">
+          <div style="font-size:22px;margin-bottom:8px">💧</div>
+          <div style="font-size:12px;font-weight:700;color:var(--navy);margin-bottom:6px">Combur® + Eco</div>
+          <div class="card-label">Hematúria · Leucocitúria · Ecografia renovesical</div>
+        </div>
+      </div>
+      <div class="ref-tag">ULS São João · Procedimento Cólica Renal, 2026.02.10</div>`
+    },
+
+  ]},
+
+  /* ══════════════════════════════════════════════════════
+     4. TERAPÊUTICA
+  ══════════════════════════════════════════════════════ */
+  { id:'terapeutica', name:'4. Terapêutica', slides:[
+
+    { lbl:'Via de administração e fluidoterapia',
+      render:()=>`
+      <div class="eyebrow">Quadro 1 — Princípios Terapêuticos</div>
+      <div class="slide-title">Princípios da <em>Terapêutica</em></div>
+      <div class="divider"></div>
+      <div class="two-col" style="max-width:760px">
+        <div class="hl-box teal">
+          <p><strong>Via parentérica privilegiada</strong><br>Doentes frequentemente nauseados. Via ev preferível à im (absorção mais previsível).</p>
+        </div>
+        <div class="hl-box red">
+          <p><strong>Evitar fluidoterapia ev</strong><br>A não ser que o doente esteja desidratado — a hidratação agrava tendencialmente a dor.</p>
+        </div>
+      </div>
+      <div style="margin-top:20px;display:flex;gap:16px;max-width:760px">
+        <div style="flex:1;background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:14px 18px;font-size:12.5px;color:var(--text2);line-height:1.6">
+          <div style="font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--muted);margin-bottom:6px">Sequência terapêutica</div>
+          <strong>1.</strong> AINE ev em 1ª linha<br>
+          <strong>2.</strong> + Opióide se sem resposta ou dor muito intensa<br>
+          <strong>3.</strong> Anti-emético se náusea/vómitos (sempre com opióides)
+        </div>
+      </div>
+      <div class="ref-tag">ULS São João · Procedimento Cólica Renal, 2026.02.10</div>`
+    },
+
+    { lbl:'Tabela de fármacos — analgesia',
+      render:()=>`
+      <div class="eyebrow">Quadro 1 — Fármacos</div>
+      <div class="slide-title">Terapêutica — <em>Fármacos e Doses</em></div>
+      <div class="divider"></div>
+      <table class="drug-table">
+        <thead>
+          <tr><th class="th-class">Classe</th><th class="th-drug">Fármaco</th><th class="th-dose">Dose / Frequência / Máximo</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="td-class" rowspan="3">AINE<br><span style="font-weight:400;text-transform:none;font-style:italic">1ª linha</span></td>
+            <td class="td-main drug-highlight">CETOROLAC ✓</td>
+            <td><strong>30 mg ev</strong>, q6/6h · máx: 120 mg/dia</td>
+          </tr>
+          <tr>
+            <td class="td-alt">Acetilsalicilato de Lisina</td>
+            <td>1800 mg ev, q6/6h · máx: 7200 mg/dia</td>
+          </tr>
+          <tr>
+            <td class="td-alt">Diclofenac</td>
+            <td>50 mg ev, q8/8h · máx: 150 mg/dia</td>
+          </tr>
+          <tr>
+            <td class="td-class" rowspan="2">OPIÓIDES<br><span style="font-weight:400;text-transform:none;font-style:italic">2ª linha</span></td>
+            <td class="td-main drug-highlight">MORFINA ✓</td>
+            <td><strong>2–5 mg ev</strong> (0,05–0,1 mg/kg) bólus; repetir 2 mg / 5 min · máx: 10 mg q4/4h</td>
+          </tr>
+          <tr>
+            <td class="td-alt">Tramadol</td>
+            <td>100 mg ev, q6/6h · máx: 400 mg/dia</td>
+          </tr>
+          <tr>
+            <td class="td-class">OUTROS<br><span style="font-weight:400;text-transform:none;font-style:italic">após 1ª linha</span></td>
+            <td class="td-main drug-highlight">PARACETAMOL ✓</td>
+            <td><strong>1000 mg ev</strong>, q8/8h ou q6/6h · máx: 4000 mg/dia</td>
+          </tr>
+          <tr>
+            <td class="td-class" rowspan="2">ANTI-<br>EMÉTICO</td>
+            <td class="td-main drug-highlight">METOCLOPRAMIDA ✓</td>
+            <td><strong>10 mg ev</strong>, q8/8h · máx: 30 mg/dia</td>
+          </tr>
+          <tr>
+            <td class="td-alt">Ondansetron</td>
+            <td>8 mg ev, q8/8h · máx: 24 mg/dia</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="ref-tag">ULS São João · Procedimento Cólica Renal, 2026.02.10</div>`
+    },
+
+  ]},
+
+  /* ══════════════════════════════════════════════════════
+     5. CRITÉRIOS DE COMPLICAÇÃO / CONTACTAR UROLOGIA
+  ══════════════════════════════════════════════════════ */
+  { id:'complicacoes', name:'5. Critérios de Complicação', slides:[
+
+    { lbl:'Quando contactar Urologia no SU',
+      render:()=>`
+      <div class="eyebrow">Contactar Urologia</div>
+      <div class="slide-title">Quando <em>Contactar Urologia</em>?</div>
+      <div class="divider red"></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;width:100%;max-width:780px">
+        <div class="crit-box red">
+          <div class="crit-title red">Critérios clínicos</div>
+          <div class="crit-item"><div class="crit-dot" style="background:var(--red)"></div>Infecção com ponto de partida urinário</div>
+          <div class="crit-item"><div class="crit-dot" style="background:var(--red)"></div>Dor refratária a todas as linhas de analgesia</div>
+          <div class="crit-item"><div class="crit-dot" style="background:var(--red)"></div>Anúria / Oligúria</div>
+          <div class="crit-item"><div class="crit-dot" style="background:var(--red)"></div>Rim único ou transplantado</div>
+          <div class="crit-item"><div class="crit-dot" style="background:var(--red)"></div><strong>Febre &gt;38°C</strong></div>
+        </div>
+        <div class="crit-box orange">
+          <div class="crit-title orange">Critérios analíticos / imagem</div>
+          <div class="crit-item"><div class="crit-dot" style="background:var(--orange)"></div><strong>GB ≥16×10⁹/L</strong></div>
+          <div class="crit-item"><div class="crit-dot" style="background:var(--orange)"></div><strong>PCR ≥150 mg/L</strong></div>
+          <div class="crit-item"><div class="crit-dot" style="background:var(--orange)"></div><strong>Creatinina ≥1,5 mg/dl</strong></div>
+          <div class="crit-item"><div class="crit-dot" style="background:var(--orange)"></div>Evidência de complicação em imagem</div>
+        </div>
+      </div>
+      <div class="ref-tag">ULS São João · Procedimento Cólica Renal, 2026.02.10</div>`
+    },
+
+  ]},
+
+  /* ══════════════════════════════════════════════════════
+     6. ALTA E SEGUIMENTO
+  ══════════════════════════════════════════════════════ */
+  { id:'alta', name:'6. Alta e Seguimento', slides:[
+
+    { lbl:'Terapêutica na alta',
+      render:()=>`
+      <div class="eyebrow">Quadro 5 — Alta para Ambulatório</div>
+      <div class="slide-title">Terapêutica na <em>Alta</em></div>
+      <div class="divider"></div>
+      <div style="width:100%;max-width:760px">
+        <div class="flow-row">
+          <div class="flow-box orange" style="flex:0 0 200px;font-weight:700">AINE (3–10 dias)</div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-result"><strong>Ibuprofeno 600 mg tid</strong></div>
+        </div>
+        <div class="flow-row">
+          <div class="flow-box gold" style="flex:0 0 200px;font-weight:700">Analgesia SOS</div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-result"><strong>Paracetamol</strong> · Tramadol</div>
+        </div>
+        <div class="flow-row">
+          <div class="flow-box teal" style="flex:0 0 200px;font-weight:700">TME — α-bloqueantes</div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-result"><strong>Tansulosina 0,4 mg id</strong> ou Silodosina 8 mg id · 4 semanas</div>
+        </div>
+        <div class="flow-row">
+          <div class="flow-box green" style="flex:0 0 200px;font-weight:700">Alcalinização urina</div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-result">A ponderar em toda a tipologia de cálculos (não só radiopacos)</div>
+        </div>
+        <div class="flow-row">
+          <div class="flow-box red" style="flex:0 0 200px;font-weight:700">Anti-emético SOS</div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-result">Se necessário</div>
+        </div>
+      </div>
+      <div class="ref-tag">ULS São João · Procedimento Cólica Renal, 2026.02.10</div>`
+    },
+
+    { lbl:'Terapêutica Médica Expulsiva — evidência EAU',
+      render:()=>`
+      <div class="eyebrow">TME — Evidência EAU 2026</div>
+      <div class="slide-title">α-bloqueantes na <em>Terapêutica Expulsiva</em></div>
+      <div class="divider"></div>
+      <div class="hl-box teal" style="max-width:680px;margin-bottom:20px">
+        <p>A Tansulosina aumenta a taxa de expulsão espontânea de cálculos ureterais, especialmente os de maior dimensão. Efeito mais evidente em cálculos <strong>5–10 mm</strong>.</p>
+        <div class="source">EAU Guidelines on Urolithiasis, 2026 · Wang RC, et al. Ann Emerg Med. 2016</div>
+      </div>
+      <div class="cards-row" style="max-width:720px">
+        <div class="card green">
+          <div class="card-num" style="font-size:36px">≤5 mm</div>
+          <div class="card-label">expulsão espontânea elevada<br>TME pode ser benéfica</div>
+        </div>
+        <div class="card teal">
+          <div class="card-num" style="font-size:36px">5–10 mm</div>
+          <div class="card-label">TME com α-bloqueante — <br>maior benefício demonstrado</div>
+        </div>
+        <div class="card red">
+          <div class="card-num" style="font-size:36px">&gt;10 mm</div>
+          <div class="card-label">expulsão espontânea improvável —<br>considerar intervenção cirúrgica</div>
+        </div>
+      </div>
+      <div class="ref-tag">EAU Guidelines on Urolithiasis, 2026</div>`
+    },
+
+    { lbl:'Sinais de alarme e seguimento',
+      render:()=>`
+      <div class="eyebrow">Quadro 5 — Seguimento</div>
+      <div class="slide-title">Sinais de Alarme e <em>Seguimento</em></div>
+      <div class="divider"></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;width:100%;max-width:780px">
+        <div>
+          <div class="crit-box red" style="margin-bottom:14px">
+            <div class="crit-title red">⚠️ Sinais de alarme — regresso urgente</div>
+            <div class="crit-item"><div class="crit-dot" style="background:var(--red)"></div>Febre</div>
+            <div class="crit-item"><div class="crit-dot" style="background:var(--red)"></div>Anúria</div>
+            <div class="crit-item"><div class="crit-dot" style="background:var(--red)"></div>Dor refratária</div>
+            <div class="crit-item"><div class="crit-dot" style="background:var(--red)"></div>Agravamento do estado geral</div>
+          </div>
+        </div>
+        <div>
+          <div class="crit-box green">
+            <div class="crit-title green">📅 Reavaliação imagiológica</div>
+            <div class="crit-item"><div class="crit-dot" style="background:var(--green)"></div>Após <strong>4 semanas</strong> — reavaliar hidronefrose, posicionamento ou expulsão do cálculo</div>
+          </div>
+          <div style="height:12px"></div>
+          <div class="crit-box orange">
+            <div class="crit-title orange">🏥 Referenciar Urologia se:</div>
+            <div class="crit-item"><div class="crit-dot" style="background:var(--orange)"></div>Cálculos <strong>&gt;10 mm</strong></div>
+            <div class="crit-item"><div class="crit-dot" style="background:var(--orange)"></div>Dor recorrente significativa</div>
+            <div class="crit-item"><div class="crit-dot" style="background:var(--orange)"></div>Não expulsão após <strong>4 semanas</strong></div>
+          </div>
+        </div>
+      </div>
+      <div class="ref-tag">ULS São João · Procedimento Cólica Renal, 2026.02.10</div>`
+    },
+
+    { lbl:'Mensagens-chave',
+      render:()=>`
+      <div class="eyebrow">Resumo</div>
+      <div class="slide-title">Mensagens <em>-Chave</em></div>
+      <div class="divider"></div>
+      <ul class="slide-list" style="max-width:680px">
+        <li><div class="li-icon li-orange"></div><span>AINE ev (Cetorolac) é a <strong>analgesia de 1ª linha</strong> — evitar fluidoterapia se não desidratado</span></li>
+        <li><div class="li-icon li-red"></div><span>Febre &gt;38°C, GB ≥16×10⁹/L, PCR ≥150 mg/L ou Cr ≥1,5 mg/dl → <strong>Contactar Urologia</strong></span></li>
+        <li><div class="li-icon li-teal"></div><span>Ecografia renovesical é suficiente em <strong>suspeita clínica elevada</strong> sem dúvida diagnóstica</span></li>
+        <li><div class="li-icon li-gold"></div><span>TME com α-bloqueantes (Tansulosina 0,4 mg) — maior benefício em cálculos <strong>5–10 mm</strong></span></li>
+        <li><div class="li-icon li-green"></div><span>Reavaliação imagiológica após <strong>4 semanas</strong></span></li>
+        <li><div class="li-icon li-navy"></div><span>Referenciar Urologia: cálculos &gt;10 mm, dor recorrente ou não expulsão às 4 semanas</span></li>
+      </ul>
+      <div class="ref-tag">ULS São João, 2026.02.10 · EAU Urolithiasis Guidelines, 2026</div>`
+    },
+
+  ]},
+
+];
+
+/* ── engine ── */
+let all=[], cur=0;
+chapters.forEach(ch=>ch.slides.forEach(sl=>all.push({chId:ch.id,chName:ch.name,...sl})));
+
+function buildSidebar(){
+  const nav=document.getElementById('chapter-nav');
+  let html='', idx=0;
+  chapters.forEach(ch=>{
+    html+=`<div class="chapter-group"><div class="chapter-header" id="ch-${ch.id}" data-first="${idx}"><span class="ch-dot"></span>${ch.name}</div><div>`;
+    ch.slides.forEach(()=>{
+      html+=`<button class="slide-btn" id="sb-${idx}" onclick="goTo(${idx})">${all[idx].lbl}</button>`;
+      idx++;
+    });
+    html+=`</div></div>`;
+  });
+  nav.innerHTML=html;
+  document.querySelectorAll('.chapter-header').forEach(h=>h.addEventListener('click',()=>goTo(parseInt(h.dataset.first))));
+}
+
+function buildSlides(){
+  const main=document.getElementById('main');
+  main.innerHTML='';
+  all.forEach((sl,i)=>{
+    const d=document.createElement('div');
+    d.className='slide'+(i===0?' active':'');
+    d.id=`sl-${i}`;
+    d.innerHTML=sl.render();
+    main.appendChild(d);
+  });
+  document.getElementById('tot').textContent=all.length;
+}
+
+function goTo(n){
+  if(n<0||n>=all.length)return;
+  const prev=document.querySelector('.slide.active');
+  if(prev){prev.classList.remove('active');prev.classList.add('exit');setTimeout(()=>prev.classList.remove('exit'),380);}
+  cur=n;
+  document.getElementById(`sl-${n}`).classList.add('active');
+  updateUI();
+}
+
+function updateUI(){
+  document.getElementById('cur').textContent=cur+1;
+  document.getElementById('progress-fill').style.width=((cur+1)/all.length*100)+'%';
+  document.getElementById('topbar-chapter').textContent=all[cur].chName;
+  document.querySelectorAll('.slide-btn').forEach((b,i)=>b.classList.toggle('active',i===cur));
+  const cId=all[cur].chId;
+  document.querySelectorAll('.chapter-header').forEach(h=>h.classList.toggle('active',h.id===`ch-${cId}`));
+  const ab=document.getElementById(`sb-${cur}`);
+  if(ab)ab.scrollIntoView({block:'nearest'});
+}
+
+document.addEventListener('keydown',e=>{
+  if(['ArrowRight','ArrowDown',' '].includes(e.key)){e.preventDefault();goTo(cur+1);}
+  if(['ArrowLeft','ArrowUp'].includes(e.key)){e.preventDefault();goTo(cur-1);}
+});
+document.getElementById('btn-next').onclick=()=>goTo(cur+1);
+document.getElementById('btn-prev').onclick=()=>goTo(cur-1);
+
+buildSidebar(); buildSlides(); updateUI();
+</script>
+</body>
+</html>

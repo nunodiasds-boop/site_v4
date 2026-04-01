@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PSA Inteligente · Grupo Próstata · ULS São João</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f5f4f0;--bg2:#eeece7;--white:#ffffff;
+  --navy:#0f1f3d;--navy2:#1a3260;
+  --teal:#0a7ea4;--teal2:#0891b2;--teal-lt:#e0f2f7;
+  --gold:#c07a1a;--gold-lt:#fef3e2;
+  --red:#c0392b;--red-lt:#fee2e2;
+  --green:#1a7a4a;--green-lt:#dcfce7;
+  --blue:#1a56a0;--blue-lt:#deeaf8;
+  --text:#0f1f3d;--text2:#2d3a5c;
+  --muted:#6b7280;--muted2:#9ca3af;
+  --border:#d4d0c8;--border2:#e8e5df;
+  --sidebar:212px;--topbar:46px;
+  --shadow:0 1px 3px rgba(0,0,0,.08),0 4px 14px rgba(0,0,0,.05);
+  --shadow-md:0 4px 12px rgba(0,0,0,.10),0 8px 28px rgba(0,0,0,.07);
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);overflow:hidden;height:100vh;width:100vw}
+
+/* SIDEBAR */
+#sidebar{position:fixed;left:0;top:0;bottom:0;width:var(--sidebar);background:var(--white);border-right:1px solid var(--border);overflow-y:auto;z-index:200;display:flex;flex-direction:column}
+#sidebar::-webkit-scrollbar{width:3px}
+#sidebar::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}
+.sb-head{padding:14px 14px 10px;border-bottom:1px solid var(--border2);flex-shrink:0}
+.sb-back{display:flex;align-items:center;gap:6px;text-decoration:none;color:var(--muted);font-size:11px;font-weight:600;margin-bottom:10px;transition:color .15s;letter-spacing:.2px}
+.sb-back:hover{color:var(--teal2)}
+.sb-back svg{width:14px;height:14px;flex-shrink:0}
+.sb-title{font-family:'DM Serif Display',serif;font-size:13px;color:var(--navy);letter-spacing:-.1px}
+.sb-sub{font-size:11px;color:var(--muted);margin-top:2px}
+#chap-nav{flex:1;padding:6px 0 20px}
+.ch-group{margin-bottom:2px}
+.ch-hdr{padding:7px 12px;font-size:9.5px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted2);cursor:pointer;display:flex;align-items:center;gap:6px;transition:color .15s;user-select:none}
+.ch-hdr:hover{color:var(--teal2)}.ch-hdr.act{color:var(--teal2)}
+.ch-dot{width:5px;height:5px;border-radius:50%;background:var(--border);flex-shrink:0;transition:background .2s}
+.ch-hdr.act .ch-dot{background:var(--teal2)}
+.sl-btn{display:block;width:100%;padding:5px 12px 5px 24px;font-size:11.5px;color:var(--muted);background:none;border:none;cursor:pointer;text-align:left;transition:all .12s;line-height:1.35;font-family:'DM Sans',sans-serif}
+.sl-btn:hover{color:var(--text2);background:var(--bg)}
+.sl-btn.act{color:var(--teal2);background:var(--teal-lt);border-left:2px solid var(--teal2);padding-left:22px;font-weight:600}
+
+/* TOPBAR */
+#topbar{position:fixed;top:0;left:var(--sidebar);right:0;height:var(--topbar);background:var(--white);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 20px;z-index:150;box-shadow:0 1px 0 rgba(0,0,0,.04)}
+#tb-chapter{font-size:12px;font-weight:600;color:var(--muted);letter-spacing:.2px}
+.tb-right{display:flex;align-items:center;gap:10px}
+#counter{font-size:13px;color:var(--muted);font-weight:500}
+#counter b{color:var(--navy);font-weight:700}
+.nav-btn{width:30px;height:30px;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--muted);font-size:14px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .12s}
+.nav-btn:hover{background:var(--navy);color:white;border-color:var(--navy)}
+
+/* MAIN & SLIDES */
+#main{position:fixed;left:var(--sidebar);top:var(--topbar);right:0;bottom:4px;overflow:hidden;background:var(--bg)}
+.slide{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:40px 56px;opacity:0;pointer-events:none;transition:opacity .35s ease,transform .35s ease;transform:translateX(24px)}
+.slide.act{opacity:1;pointer-events:all;transform:translateX(0)}
+.slide.exit{opacity:0;transform:translateX(-24px)}
+
+/* TYPE */
+.eyebrow{font-size:10.5px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--teal2);margin-bottom:10px;text-align:center}
+.slide-title{font-family:'DM Serif Display',serif;font-size:clamp(24px,3.2vw,44px);color:var(--navy);text-align:center;line-height:1.1;letter-spacing:-.4px;margin-bottom:24px}
+.slide-title em{font-style:italic;color:var(--teal2)}
+.slide-title.red em{color:var(--red)}
+.divider{width:44px;height:3px;background:var(--teal2);border-radius:2px;margin:0 auto 20px}
+.divider.red{background:var(--red)}
+
+/* STAT */
+.stat-big{font-family:'DM Serif Display',serif;font-size:clamp(70px,11vw,150px);line-height:.9;letter-spacing:-3px;text-align:center}
+.stat-big.teal{color:var(--teal2)}.stat-big.red{color:var(--red)}.stat-big.gold{color:var(--gold)}
+.stat-lbl{font-size:clamp(13px,1.5vw,18px);color:var(--muted);text-align:center;margin-top:14px;max-width:500px;line-height:1.5;font-weight:300}
+.stat-lbl strong{color:var(--text2);font-weight:600}
+.dual{display:flex;gap:44px;align-items:center;justify-content:center}
+.dual-div{width:1px;height:90px;background:var(--border)}
+
+/* CARDS */
+.cr{display:flex;gap:14px;width:100%;max-width:840px;justify-content:center}
+.c{background:var(--white);border:1px solid var(--border);border-radius:11px;padding:20px 16px;flex:1;text-align:center;box-shadow:var(--shadow);position:relative;overflow:hidden}
+.c::after{content:'';position:absolute;bottom:0;left:0;right:0;height:3px}
+.c.teal::after{background:var(--teal2)}.c.red::after{background:var(--red)}.c.gold::after{background:var(--gold)}.c.green::after{background:var(--green)}.c.blue::after{background:var(--blue)}.c.muted::after{background:var(--border)}
+.c-num{font-family:'DM Serif Display',serif;font-size:clamp(30px,4.5vw,54px);line-height:1;letter-spacing:-1px;color:var(--navy)}
+.c.teal .c-num{color:var(--teal2)}.c.red .c-num{color:var(--red)}.c.gold .c-num{color:var(--gold)}.c.green .c-num{color:var(--green)}
+.c-lbl{font-size:11.5px;color:var(--muted);margin-top:7px;line-height:1.4}
+.c-desc{font-size:10.5px;color:var(--muted2);margin-top:4px}
+
+/* LIST */
+.slist{list-style:none;width:100%;max-width:680px}
+.slist li{display:flex;align-items:flex-start;gap:11px;padding:12px 0;border-bottom:1px solid var(--border2);font-size:clamp(13.5px,1.55vw,17.5px);color:var(--text2);line-height:1.45}
+.slist li:last-child{border-bottom:none}
+.ld{width:6px;height:6px;border-radius:50%;flex-shrink:0;margin-top:8px}
+.dt{background:var(--teal2)}.dr{background:var(--red)}.da{background:var(--gold)}.db{background:var(--blue)}.dn{background:var(--navy)}.dg{background:var(--green)}
+
+/* HIGHLIGHT */
+.hl{background:var(--white);border:1px solid var(--border);border-left:4px solid var(--teal2);border-radius:10px;padding:22px 26px;max-width:660px;box-shadow:var(--shadow)}
+.hl p{font-size:clamp(14px,1.6vw,19px);color:var(--text2);line-height:1.6;font-weight:300}
+.hl p strong{color:var(--navy);font-weight:600}
+.hl.red{border-left-color:var(--red)}
+.hl .src{margin-top:10px;font-size:11px;color:var(--muted2);font-style:italic}
+
+/* TIMELINE */
+.agetl{display:flex;width:100%;max-width:760px;position:relative;padding-bottom:56px}
+.agetl::before{content:'';position:absolute;left:32px;right:32px;top:30px;height:2px;background:var(--border)}
+.anode{flex:1;display:flex;flex-direction:column;align-items:center;position:relative;z-index:1}
+.abubble{width:60px;height:60px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'DM Serif Display',serif;font-size:21px;border:2.5px solid;background:var(--white);box-shadow:var(--shadow)}
+.anode-lbl{font-size:11px;color:var(--muted);margin-top:9px;text-align:center;max-width:88px;line-height:1.3}
+
+/* RISK GAUGE */
+.rg{display:flex;width:100%;max-width:740px;border-radius:10px;overflow:hidden;height:68px;border:1px solid var(--border);margin-bottom:26px;box-shadow:var(--shadow)}
+.rz{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:6px 10px}
+.rz-v{font-family:'DM Serif Display',serif;font-size:17px;font-weight:700}
+.rz-n{font-size:9.5px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;margin-top:2px}
+
+/* FLOW */
+.flow-box{background:var(--white);border:1.5px solid var(--border);border-radius:8px;padding:10px 15px;font-size:13.5px;font-weight:500;color:var(--text2);box-shadow:0 1px 3px rgba(0,0,0,.04)}
+.flow-box.teal{border-color:var(--teal2);background:var(--teal-lt);color:var(--teal)}
+.flow-box.red{border-color:var(--red);background:var(--red-lt);color:var(--red)}
+.flow-box.gold{border-color:var(--gold);background:var(--gold-lt);color:var(--gold)}
+.flow-box.green{border-color:var(--green);background:var(--green-lt);color:var(--green)}
+.flow-box.blue{border-color:var(--blue);background:var(--blue-lt);color:var(--blue)}
+.flow-arr{font-size:18px;color:var(--border);flex-shrink:0}
+.flow-res{font-size:12.5px;color:var(--muted);padding:9px 13px;background:var(--bg);border-radius:6px;border:1px solid var(--border2);flex:1}
+.flow-res strong{color:var(--navy)}
+.frow{display:flex;align-items:center;gap:9px;margin-bottom:9px}
+
+/* FORMULA */
+.formula{font-family:'DM Serif Display',serif;font-size:clamp(20px,3vw,38px);text-align:center;background:var(--white);border:1px solid var(--border);border-radius:11px;padding:20px 32px;margin:18px 0;box-shadow:var(--shadow);display:flex;align-items:center;justify-content:center;gap:12px}
+.frac{display:inline-flex;flex-direction:column;align-items:center}
+.fnum{border-bottom:2px solid var(--teal2);padding-bottom:3px;color:var(--teal2)}
+.fden{padding-top:3px;color:var(--muted);font-size:.72em}
+
+/* PILL */
+.pill{display:inline-flex;align-items:center;gap:4px;padding:4px 12px;border-radius:20px;font-size:10.5px;font-weight:700;letter-spacing:.5px;text-transform:uppercase}
+.pill.strong{background:var(--teal-lt);color:var(--teal);border:1px solid rgba(10,126,164,.2)}
+.pill.weak{background:var(--gold-lt);color:var(--gold);border:1px solid rgba(192,122,26,.2)}
+
+/* TABLE */
+.gtbl{width:100%;max-width:800px;border-collapse:separate;border-spacing:0;font-size:11.5px;border:1px solid var(--border);border-radius:10px;overflow:hidden;box-shadow:var(--shadow)}
+.gtbl th{background:var(--navy);color:white;padding:9px 13px;font-size:10.5px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;text-align:left}
+.gtbl th:first-child{background:var(--bg2);color:var(--muted)}
+.gtbl td{padding:9px 13px;border-bottom:1px solid var(--border2);color:var(--text2);vertical-align:top;line-height:1.4;background:var(--white)}
+.gtbl tr:last-child td{border-bottom:none}
+.gtbl tr:nth-child(even) td{background:var(--bg)}
+.gtbl td:first-child{color:var(--muted);font-size:11px;background:var(--bg2)!important;font-weight:500}
+
+/* DT */
+.dt-row{display:flex;align-items:stretch;gap:9px;margin-bottom:9px}
+.dt-trigger{border-radius:8px;padding:10px 15px;min-width:165px;font-size:12.5px;font-weight:600;display:flex;align-items:center;gap:7px;border:1.5px solid}
+.dt-trigger.red{border-color:var(--red);background:var(--red-lt);color:var(--red)}
+.dt-trigger.gold{border-color:var(--gold);background:var(--gold-lt);color:var(--gold)}
+.dt-trigger.teal{border-color:var(--teal2);background:var(--teal-lt);color:var(--teal)}
+.dt-arr{color:var(--border);display:flex;align-items:center;font-size:18px}
+.dt-act{flex:1;background:var(--bg);border:1px solid var(--border2);border-radius:8px;padding:10px 15px;color:var(--muted);font-size:12px;display:flex;align-items:center;line-height:1.4}
+.dt-act strong{color:var(--navy)}
+
+/* BARS */
+.bar-wrap{width:100%;max-width:640px}
+.bar-row{display:flex;align-items:center;gap:10px;margin-bottom:13px}
+.bar-lbl{width:120px;font-size:11.5px;color:var(--muted);text-align:right;flex-shrink:0}
+.bar-track{flex:1;height:28px;background:var(--bg2);border-radius:5px;overflow:hidden;border:1px solid var(--border2)}
+.bar-fill{height:100%;border-radius:4px;display:flex;align-items:center;padding-left:10px;font-family:'DM Serif Display',serif;font-size:13px;font-weight:700;color:white}
+
+/* REF */
+.ref{position:absolute;bottom:10px;right:18px;font-size:10px;color:var(--muted2);opacity:.7;font-style:italic}
+
+/* ANIMATIONS */
+.slide.act .slist li,.slide.act .cr .c,.slide.act .anode,.slide.act .dt-row,.slide.act .frow{animation:fadeUp .4s both}
+.slide.act .slist li:nth-child(1),.slide.act .cr .c:nth-child(1),.slide.act .anode:nth-child(1),.slide.act .dt-row:nth-child(1),.slide.act .frow:nth-child(1){animation-delay:.05s}
+.slide.act .slist li:nth-child(2),.slide.act .cr .c:nth-child(2),.slide.act .anode:nth-child(2),.slide.act .dt-row:nth-child(2),.slide.act .frow:nth-child(2){animation-delay:.11s}
+.slide.act .slist li:nth-child(3),.slide.act .cr .c:nth-child(3),.slide.act .anode:nth-child(3),.slide.act .dt-row:nth-child(3),.slide.act .frow:nth-child(3){animation-delay:.17s}
+.slide.act .slist li:nth-child(4),.slide.act .cr .c:nth-child(4),.slide.act .anode:nth-child(4),.slide.act .dt-row:nth-child(4),.slide.act .frow:nth-child(4){animation-delay:.23s}
+.slide.act .slist li:nth-child(5),.slide.act .frow:nth-child(5){animation-delay:.29s}
+.slide.act .slist li:nth-child(6){animation-delay:.35s}
+.slide.act .stat-big{animation:popIn .5s cubic-bezier(.22,1,.36,1) .08s both}
+@keyframes fadeUp{from{opacity:0;transform:translateY(13px)}to{opacity:1;transform:translateY(0)}}
+@keyframes popIn{from{opacity:0;transform:scale(.88)}to{opacity:1;transform:scale(1)}}
+
+/* PROGRESS */
+#progress{position:fixed;bottom:0;left:var(--sidebar);right:0;height:4px;background:var(--border2);z-index:200}
+#progress-fill{height:100%;background:var(--teal2);transition:width .3s ease}
+</style>
+</head>
+<body>
+
+<nav id="sidebar">
+  <div class="sb-head">
+    <a href="../index.html" class="sb-back">
+      <svg fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+      Biblioteca
+    </a>
+    <div class="sb-title">PSA Inteligente</div>
+    <div class="sb-sub">Grupo Próstata · ULS São João</div>
+  </div>
+  <div id="chap-nav"></div>
+</nav>
+
+<div id="topbar">
+  <div id="tb-chapter">–</div>
+  <div class="tb-right">
+    <div id="counter"><b id="cur">1</b> / <span id="tot">–</span></div>
+    <button class="nav-btn" id="btn-prev">&#8592;</button>
+    <button class="nav-btn" id="btn-next">&#8594;</button>
+  </div>
+</div>
+
+<main id="main"></main>
+<div id="progress"><div id="progress-fill"></div></div>
+
+<script>
+const chapters=[
+  {id:'contexto',name:'1. Contexto',slides:[
+    {lbl:'Epidemiologia em Portugal',render:()=>`
+      <div class="eyebrow">Contexto — Portugal 2018</div>
+      <div class="slide-title">Cancro da Próstata em <em>Portugal</em></div>
+      <div class="divider"></div>
+      <div class="cr">
+        <div class="c teal"><div class="c-num">21,2%</div><div class="c-lbl">dos novos cancros masculinos em PT</div><div class="c-desc">6.609 novos casos · Total 31.238</div></div>
+        <div class="c gold"><div class="c-num">#1</div><div class="c-lbl">cancro mais frequente no homem português</div><div class="c-desc">Globocan 2018</div></div>
+        <div class="c red"><div class="c-num">10,7%</div><div class="c-lbl">das mortes por cancro masculino</div><div class="c-desc">1.879 mortes · Total 17.607</div></div>
+      </div>
+      <div class="ref">Globocan 2018 · Portugal</div>`},
+    {lbl:'PSA — marcador de risco',render:()=>`
+      <div class="eyebrow">Limitações do PSA</div>
+      <div class="slide-title">PSA — <em>Marcador de Risco</em>, não teste binário</div>
+      <div class="divider"></div>
+      <div class="cr" style="max-width:760px">
+        <div class="c muted"><div style="font-size:24px;margin-bottom:7px">🔬</div><div style="font-size:12px;font-weight:600;color:var(--text2);margin-bottom:3px">Específico da próstata</div><div class="c-lbl">Não é específico de doença maligna</div></div>
+        <div class="c muted"><div style="font-size:24px;margin-bottom:7px">🦠</div><div style="font-size:12px;font-weight:600;color:var(--text2);margin-bottom:3px">ITU / Infecção</div><div class="c-lbl">Pode elevar significativamente</div></div>
+        <div class="c muted"><div style="font-size:24px;margin-bottom:7px">📏</div><div style="font-size:12px;font-weight:600;color:var(--text2);margin-bottom:3px">Volume prostático</div><div class="c-lbl">HBP aumenta o PSA basal</div></div>
+        <div class="c red"><div style="font-size:24px;margin-bottom:7px">⚠️</div><div style="font-size:12px;font-weight:600;color:var(--red);margin-bottom:3px">Neoplasia</div><div class="c-lbl">Causa mais temida de PSA elevado</div></div>
+      </div>`},
+    {lbl:'Objetivo do rastreio',render:()=>`
+      <div class="eyebrow">Princípio fundamental</div>
+      <div class="slide-title">O Objetivo do <em>Rastreio</em></div>
+      <div class="divider"></div>
+      <div class="hl" style="max-width:680px;margin-bottom:22px">
+        <p>Identificar doentes com <strong>maior probabilidade de beneficiar</strong> de mais investigação e eventual tratamento, <strong>evitando exames e tratamentos excessivos</strong> em doentes de baixo risco.</p>
+      </div>
+      <div class="cr" style="max-width:620px">
+        <div class="c green"><div style="font-size:19px;margin-bottom:7px">📋</div><div style="font-size:12px;font-weight:600;color:var(--green);margin-bottom:3px">Rastreio sistemático</div><div class="c-lbl">Programa organizado com convocatória activa</div></div>
+        <div class="c gold"><div style="font-size:19px;margin-bottom:7px">🤝</div><div style="font-size:12px;font-weight:600;color:var(--gold);margin-bottom:3px">Diagnóstico oportunista</div><div class="c-lbl">Iniciado na consulta com decisão partilhada</div></div>
+      </div>`}
+  ]},
+  {id:'erspc',name:'2. Evidência ERSPC',slides:[
+    {lbl:'ERSPC — 23 anos de seguimento',render:()=>`
+      <div class="eyebrow">NEJM · Outubro 2025</div>
+      <div class="slide-title">ERSPC — <em>23 anos</em> de seguimento</div>
+      <div class="divider"></div>
+      <div class="dual">
+        <div style="text-align:center"><div class="stat-big teal">13%</div><div class="stat-lbl">Redução do risco relativo de morte por Ca Próstata</div></div>
+        <div class="dual-div"></div>
+        <div style="text-align:center"><div class="stat-big" style="font-size:clamp(38px,5.5vw,72px);color:var(--navy)">RR 0.87</div><div class="stat-lbl">IC 95%: 0.80 – 0.95 · <strong>p = 0.002</strong></div></div>
+      </div>
+      <div style="margin-top:18px;font-size:12.5px;color:var(--muted);text-align:center">Particularmente relevante para homens que iniciaram rastreio entre <strong style="color:var(--text2)">55–59 anos</strong></div>
+      <div class="ref">Roobol M, et al. NEJM, 2025</div>`},
+    {lbl:'NNI e NNT — para prevenir 1 morte',render:()=>`
+      <div class="eyebrow">Impacto clínico</div>
+      <div class="slide-title">Para <em>prevenir 1 morte</em> por cancro da próstata</div>
+      <div class="divider"></div>
+      <div class="cr" style="max-width:600px;margin-top:8px">
+        <div class="c teal" style="padding:28px 18px"><div class="c-num" style="font-size:clamp(56px,7.5vw,88px)">456</div><div class="c-lbl" style="font-size:13px">homens <strong style="color:var(--navy)">convidados</strong> para rastreio<br><em style="font-size:11px;color:var(--muted2)">NNI · 23 anos</em></div></div>
+        <div style="display:flex;align-items:center;font-family:'DM Serif Display',serif;font-size:18px;color:var(--border);padding:0 4px">ou</div>
+        <div class="c gold" style="padding:28px 18px"><div class="c-num" style="font-size:clamp(56px,7.5vw,88px)">12</div><div class="c-lbl" style="font-size:13px">homens <strong style="color:var(--navy)">tratados</strong> para evitar 1 morte<br><em style="font-size:11px;color:var(--muted2)">NNT · 23 anos</em></div></div>
+      </div>
+      <div class="ref">Roobol M, et al. NEJM, 2025</div>`},
+    {lbl:'PSA em Portugal — utilização actual',render:()=>`
+      <div class="eyebrow">Dados Portugal · 2016–2020</div>
+      <div class="slide-title">Utilização de PSA em Portugal — <em>mais de 60%</em></div>
+      <div class="divider"></div>
+      <div class="bar-wrap">
+        <div class="bar-row"><div class="bar-lbl">Mama</div><div class="bar-track"><div class="bar-fill" style="width:50%;background:linear-gradient(90deg,#1a56a0,#3b82f6)">49%</div></div></div>
+        <div class="bar-row"><div class="bar-lbl">Colo do útero</div><div class="bar-track"><div class="bar-fill" style="width:41%;background:linear-gradient(90deg,var(--teal),var(--teal2))">40%</div></div></div>
+        <div class="bar-row"><div class="bar-lbl">Colorrectal</div><div class="bar-track"><div class="bar-fill" style="width:9%;background:linear-gradient(90deg,#5a3ea0,#8b6fd4)">9%</div></div></div>
+        <div class="bar-row"><div class="bar-lbl" style="color:var(--teal2);font-weight:700">Próstata (PSA)</div><div class="bar-track" style="border-color:var(--teal2)"><div class="bar-fill" style="width:60%;background:linear-gradient(90deg,var(--gold),#d4890a)">60%</div></div></div>
+      </div>
+      <div style="font-size:11.5px;color:var(--muted);text-align:center;margin-top:8px;max-width:580px">451 testes por 1.000 homens (50–74 anos) · Portugal Continental, 2019</div>
+      <div class="ref">Botelho F, et al. · dados a aguardar publicação</div>`}
+  ]},
+  {id:'quando',name:'3. Quando Testar',slides:[
+    {lbl:'Pré-requisitos para pedir PSA',render:()=>`
+      <div class="eyebrow">Antes de pedir PSA</div>
+      <div class="slide-title">Pré-requisitos para <em>Pedir PSA</em></div>
+      <div class="divider"></div>
+      <div style="width:100%;max-width:660px">
+        <div class="frow"><div class="flow-box teal" style="flex:1">⏱ Esperança de vida estimada <strong>&gt; 15 anos</strong></div></div>
+        <div class="frow"><div class="flow-box blue" style="flex:1">🤝 Informar o doente — decisão partilhada</div></div>
+        <div class="frow"><div class="flow-box red" style="flex:1">✗ Excluir: ITU activa ou até <strong>2 meses</strong> após</div></div>
+        <div class="frow"><div class="flow-box red" style="flex:1">✗ Excluir: Agravamento agudo de LUTS ou Retenção Urinária Aguda</div></div>
+      </div>`},
+    {lbl:'Idades para o primeiro teste',render:()=>`
+      <div class="eyebrow">Primeiro teste PSA total</div>
+      <div class="slide-title">Quando fazer o <em>Primeiro Teste</em>?</div>
+      <div class="divider"></div>
+      <div class="agetl">
+        <div class="anode"><div class="abubble" style="border-color:var(--red);color:var(--red)">40</div><div class="anode-lbl" style="color:var(--red);font-weight:600">Mutação<br>BRCA2</div></div>
+        <div class="anode"><div class="abubble" style="border-color:var(--gold);color:var(--gold)">45</div><div class="anode-lbl" style="color:var(--gold)">Hx familiar<br>Ca Próstata &lt;60a</div></div>
+        <div class="anode"><div class="abubble" style="border-color:var(--gold);color:var(--gold)">45</div><div class="anode-lbl" style="color:var(--gold)">Ascendência<br>negra</div></div>
+        <div class="anode"><div class="abubble" style="border-color:var(--teal2);color:var(--teal2);width:68px;height:68px;font-size:25px">50</div><div class="anode-lbl" style="color:var(--teal2);font-weight:700">População<br>geral</div></div>
+      </div>
+      <div style="font-size:12px;color:var(--muted);text-align:center;max-width:500px">Toque rectal <strong style="color:var(--text2)">não é obrigatório</strong> no rastreio / diagnóstico oportunista</div>
+      <div class="ref">EAU Guidelines on Prostate Cancer, 2025</div>`},
+    {lbl:'Toque rectal — evidência',render:()=>`
+      <div class="eyebrow">Toque Rectal no Rastreio</div>
+      <div class="slide-title red">Toque Rectal — <em>o que diz a evidência</em></div>
+      <div class="divider red"></div>
+      <div class="cr" style="max-width:700px;margin-bottom:18px">
+        <div class="c muted"><div class="c-num" style="font-size:38px;color:var(--text2)">7</div><div class="c-lbl">estudos · 9.241 doentes (meta-análise)</div></div>
+        <div class="c red"><div class="c-num">51%</div><div class="c-lbl">Sensibilidade em Cuidados Primários</div></div>
+        <div class="c red"><div class="c-num">41%</div><div class="c-lbl">Valor Preditivo Positivo</div></div>
+      </div>
+      <div class="hl red" style="max-width:640px"><p>ERSPC · AUA · USPSTF — toque rectal <strong>não recomendado</strong> no rastreio em CSP. Será realizado na <strong>consulta de Urologia</strong>.</p></div>
+      <div class="ref">Naji L, et al. Annals of Family Medicine, 2018</div>`},
+    {lbl:'Recomendações das guidelines',render:()=>`
+      <div class="eyebrow">Guidelines comparadas</div>
+      <div class="slide-title">Recomendações das <em>Guidelines</em></div>
+      <div class="divider"></div>
+      <table class="gtbl">
+        <thead><tr><th>Questão</th><th>EAU 2025</th><th>APU 2025</th><th>DGS 2017</th><th>USPSTF 2018</th></tr></thead>
+        <tbody>
+          <tr><td>Usar PSA?</td><td>Sim, oportunista</td><td>Sim</td><td>Sim, oportunista</td><td>Oportunista, discutir</td></tr>
+          <tr><td>Aconselhamento?</td><td>Sim</td><td>Sim</td><td>Sim</td><td>Sim</td></tr>
+          <tr><td>Adaptar ao risco?</td><td>&gt;50 · &gt;45 hx/etnia · &gt;40 BRCA2</td><td>&gt;50 anos</td><td>&gt;50 anos</td><td>&gt;55 anos</td></tr>
+          <tr><td>Quando NÃO?</td><td>EMV &lt;15 anos</td><td>&gt;70 / &lt;10a EMV</td><td>&gt;75 anos</td><td>&lt;55 ou ≥70 anos</td></tr>
+        </tbody>
+      </table>`}
+  ]},
+  {id:'interpretar',name:'4. Interpretar PSA',slides:[
+    {lbl:'Zonas de risco',render:()=>`
+      <div class="eyebrow">Interpretação do Resultado</div>
+      <div class="slide-title">Zonas de <em>Risco</em> pelo PSA Total</div>
+      <div class="divider"></div>
+      <div class="rg">
+        <div class="rz" style="flex:2;background:var(--green-lt);border-right:1px solid var(--border2)"><div class="rz-v" style="color:var(--green)">&lt;1 (50a) · &lt;2 (60a)</div><div class="rz-n" style="color:var(--green)">✓ Baixo risco</div></div>
+        <div class="rz" style="flex:2;background:var(--gold-lt);border-right:1px solid var(--border2)"><div class="rz-v" style="color:var(--gold)">3 – 10</div><div class="rz-n" style="color:var(--gold)">⚡ Intermédio</div></div>
+        <div class="rz" style="flex:1;background:var(--red-lt)"><div class="rz-v" style="color:var(--red)">&gt;10</div><div class="rz-n" style="color:var(--red)">🔴 Alto risco</div></div>
+      </div>
+      <div style="width:100%;max-width:680px">
+        <div class="frow"><div class="flow-box green" style="flex:0 0 145px;text-align:center">PSA baixo risco</div><div class="flow-arr">→</div><div class="flow-res">Repetir em <strong>3 anos</strong> (até 8 anos — EAU)</div></div>
+        <div class="frow"><div class="flow-box gold" style="flex:0 0 145px;text-align:center">PSA 3–10 ng/mL</div><div class="flow-arr">→</div><div class="flow-res">Repetir PSA total + <strong>PSA livre</strong> + eco próstata em <strong>1–2 meses</strong></div></div>
+        <div class="frow"><div class="flow-box red" style="flex:0 0 145px;text-align:center">PSA &gt;10 ng/mL</div><div class="flow-arr">→</div><div class="flow-res"><strong>Referenciar Urologia</strong> (se sem causas confundidoras)</div></div>
+      </div>`},
+    {lbl:'Velocidade do PSA — sem valor',render:()=>`
+      <div class="eyebrow">Velocidade de PSA</div>
+      <div class="slide-title red">Velocidade do PSA — <em>papel muito limitado</em></div>
+      <div class="divider red"></div>
+      <div class="hl red" style="max-width:640px;margin-bottom:22px">
+        <p>A revisão sistemática aponta para um <strong>papel muito limitado</strong> da "velocidade de PSA" adicionada ao PSA total isolado. Não melhora a capacidade preditiva.</p>
+        <div class="src">Vickers A. Journal of Clinical Oncology, 2009</div>
+      </div>
+      <div style="background:var(--teal-lt);border:1.5px solid var(--teal2);border-radius:10px;padding:16px 24px;max-width:540px;text-align:center">
+        <div style="font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--teal2);margin-bottom:5px">Conclusão prática</div>
+        <div style="font-size:16px;color:var(--navy)">Cada valor de PSA deve ser <strong>interpretado de forma isolada</strong>.</div>
+      </div>`}
+  ]},
+  {id:'optimizacao',name:'5. Optimização',slides:[
+    {lbl:'PSA livre / total',render:()=>`
+      <div class="eyebrow">Optimização — PSA livre / total</div>
+      <div class="slide-title">Ratio <em>PSA Livre / Total</em></div>
+      <div class="divider"></div>
+      <div class="cr" style="max-width:640px;margin-bottom:18px">
+        <div class="c red"><div class="c-num">&lt;20%</div><div class="c-lbl">Razão livre/total suspeita (sinal de risco)</div></div>
+        <div class="c muted"><div class="c-num" style="font-size:38px">≈</div><div class="c-lbl">Não acrescenta informação à densidade PSA (EAU)</div></div>
+      </div>
+      <ul class="slist" style="max-width:620px">
+        <li><div class="ld da"></div><span>Aplicar quando PSA total <strong>4–10 ng/mL</strong> e toque rectal normal (DGS)</span></li>
+        <li><div class="ld dn"></div><span>Maioria da literatura é antiga — interpretar com cautela</span></li>
+        <li><div class="ld dr"></div><span>EAU: não adiciona informação relevante quando densidade PSA disponível</span></li>
+      </ul>
+      <div style="margin-top:12px"><span class="pill weak">Recomendação fraca · EAU 2025</span></div>`},
+    {lbl:'Densidade de PSA',render:()=>`
+      <div class="eyebrow">Optimização — Densidade de PSA</div>
+      <div class="slide-title">Densidade de <em>PSA</em></div>
+      <div class="divider"></div>
+      <div class="formula"><span style="font-size:.7em;color:var(--text2)">Densidade =</span><div class="frac"><span class="fnum">PSA total (ng/mL)</span><span class="fden">Volume próstata (cc)</span></div></div>
+      <div class="cr" style="max-width:620px;margin-top:4px">
+        <div class="c green"><div class="c-num">&lt;0.09</div><div class="c-lbl">Risco baixo de csPCa (~4%)</div></div>
+        <div class="c gold"><div class="c-num">&gt;0.15</div><div class="c-lbl">Cut-off usual para referenciação</div></div>
+      </div>
+      <div style="margin-top:13px;font-size:12.5px;color:var(--muted);text-align:center;max-width:540px">Medição adequada: ecografia <strong style="color:var(--text2)">transrectal</strong> ou RM. Toque rectal / eco transabdominal — acuidade insuficiente.</div>
+      <div style="margin-top:10px"><span class="pill weak">Recomendação fraca · EAU 2025</span></div>`},
+    {lbl:'Calculador de risco (PCPTRC)',render:()=>`
+      <div class="eyebrow">Optimização — Calculador de Risco</div>
+      <div class="slide-title">Calculador de <em>Risco Integrado</em></div>
+      <div class="divider"></div>
+      <div style="background:var(--white);border:1.5px solid var(--teal2);border-radius:13px;padding:26px 32px;max-width:620px;text-align:center;box-shadow:var(--shadow-md)">
+        <div style="font-family:'DM Serif Display',serif;font-size:22px;color:var(--teal2);margin-bottom:5px">riskcalc.org/PCPTRC</div>
+        <div style="font-size:12.5px;color:var(--muted);margin-bottom:16px">Prostate Cancer Prevention Trial Risk Calculator</div>
+        <div style="display:flex;gap:7px;flex-wrap:wrap;justify-content:center;font-size:11.5px">${['Idade','PSA total','Toque rectal','Hx familiar','% PSA livre','Biópsia prévia'].map(t=>`<span style="background:var(--bg2);border:1px solid var(--border);border-radius:4px;padding:3px 10px;color:var(--muted)">${t}</span>`).join('')}</div>
+      </div>
+      <div style="margin-top:16px;font-size:14.5px;color:var(--text2);text-align:center">Referenciar se risco de csPCa calculado <strong style="color:var(--gold)">&gt; 10%</strong></div>
+      <div style="margin-top:10px"><span class="pill weak">Recomendação fraca · EAU 2025</span></div>`},
+    {lbl:'RM multiparamétrica — recomendação FORTE',render:()=>`
+      <div class="eyebrow">Optimização — RM da Próstata</div>
+      <div class="slide-title">RM Multiparamétrica — <em>Recomendação Forte</em></div>
+      <div class="divider"></div>
+      <div style="text-align:center;margin-bottom:22px"><span class="pill strong" style="font-size:13px;padding:7px 20px;border-radius:8px">★ Recomendação forte · EAU 2025</span></div>
+      <div style="font-size:13.5px;color:var(--muted);text-align:center;margin-bottom:18px;max-width:580px">Para PSA 3–20 ng/mL com toque rectal normal</div>
+      <div class="cr" style="max-width:720px">
+        <div class="c green"><div style="font-size:21px;margin-bottom:7px">🚫</div><div class="c-lbl" style="font-size:13px">Evita biópsias desnecessárias</div></div>
+        <div class="c green"><div style="font-size:21px;margin-bottom:7px">🎯</div><div class="c-lbl" style="font-size:13px">Detecta csPCa com maior precisão</div></div>
+        <div class="c green"><div style="font-size:21px;margin-bottom:7px">📊</div><div class="c-lbl" style="font-size:13px">PIRADS ≤3 + baixa densidade → observação</div></div>
+      </div>
+      <div style="margin-top:13px;font-size:12.5px;color:var(--muted);text-align:center">PSA ≥25 e/ou cT3 → <strong style="color:var(--navy)">biópsia directa</strong> sem RM prévia</div>`}
+  ]},
+  {id:'referenciar',name:'6. Quando Referenciar',slides:[
+    {lbl:'Critérios de referenciação',render:()=>`
+      <div class="eyebrow">Referenciação a Urologia</div>
+      <div class="slide-title">Quando <em>Referenciar</em>?</div>
+      <div class="divider"></div>
+      <div style="width:100%;max-width:740px">
+        <div class="dt-row"><div class="dt-trigger red">🔴 Toque rectal suspeito</div><div class="dt-arr">→</div><div class="dt-act">Referenciar directamente</div></div>
+        <div class="dt-row"><div class="dt-trigger red">🔴 PSA &gt; 10 ng/mL</div><div class="dt-arr">→</div><div class="dt-act">Referenciar (excluir causas confundidoras)</div></div>
+        <div class="dt-row"><div class="dt-trigger gold">⚡ PSA 3–10 ng/mL</div><div class="dt-arr">→</div><div class="dt-act">Repetir PSA + PSA livre + eco transrectal → avaliar critérios adicionais</div></div>
+        <div class="dt-row" style="padding-left:46px"><div class="dt-trigger teal" style="min-width:130px;font-size:11.5px">≥ 1 critério adicional</div><div class="dt-arr">→</div><div class="dt-act"><strong>Densidade &gt;0.15</strong> · Livre/Total &lt;20% · Calculador &gt;10%</div></div>
+      </div>`},
+    {lbl:'Guia de follow-up',render:()=>`
+      <div class="eyebrow">Guia de Follow-up</div>
+      <div class="slide-title">Guia Geral de <em>Intervalos</em></div>
+      <div class="divider"></div>
+      <div style="width:100%;max-width:660px">
+        <div class="frow"><div class="flow-box teal" style="flex:0 0 112px;text-align:center;font-family:'DM Serif Display',serif;font-size:19px">PSA &lt;1</div><div class="flow-arr">→</div><div class="flow-res">Próximo doseamento em <strong>5 anos</strong></div></div>
+        <div class="frow"><div class="flow-box blue" style="flex:0 0 112px;text-align:center;font-family:'DM Serif Display',serif;font-size:19px">PSA 1–3</div><div class="flow-arr">→</div><div class="flow-res">Próximo doseamento em <strong>2 anos</strong></div></div>
+        <div class="frow"><div class="flow-box gold" style="flex:0 0 112px;text-align:center;font-family:'DM Serif Display',serif;font-size:19px">PSA &gt;3</div><div class="flow-arr">→</div><div class="flow-res">Repetir em <strong>1–2 meses</strong> → se mantiver &gt;3: follow-up em <strong>1 ano</strong> + considerar referenciação</div></div>
+      </div>
+      <div style="margin-top:14px;background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:13px 18px;max-width:660px;font-size:11.5px;color:var(--muted)">
+        <strong style="color:var(--text2)">Rastreio sistemático:</strong> ≥55 anos (50 se hx familiar / BRCA2) até 70 anos ou EMV &lt;15 anos<br>
+        <strong style="color:var(--text2)">Rastreio oportunista:</strong> 50–55 anos · &gt;70 se EMV &gt;10 anos — sempre com decisão partilhada
+      </div>
+      <div class="ref">APU 2025 · EAU 2021</div>`},
+    {lbl:'O que acontece na consulta de Urologia',render:()=>`
+      <div class="eyebrow">Percurso em Urologia</div>
+      <div class="slide-title">Na <em>Consulta de Urologia</em></div>
+      <div class="divider"></div>
+      <div style="width:100%;max-width:760px">
+        <div style="display:flex;align-items:center;position:relative;margin-bottom:32px">
+          <div style="position:absolute;top:22px;left:22px;right:22px;height:2px;background:var(--border2);z-index:0"></div>
+          ${['PSA + PSA livre','Toque rectal','Eco transrectal','Densidade · Ratio · Calculador','Decisão'].map((s,i)=>`
+          <div style="flex:1;display:flex;flex-direction:column;align-items:center;z-index:1">
+            <div style="width:${i===4?'46px':'40px'};height:${i===4?'46px':'40px'};border-radius:50%;background:${i===4?'var(--navy)':'var(--white)'};border:2px solid ${i===4?'var(--navy)':'var(--border)'};display:flex;align-items:center;justify-content:center;font-family:'DM Serif Display',serif;font-size:${i===4?'14px':'13px'};color:${i===4?'white':'var(--muted)'};box-shadow:var(--shadow)">${i+1}</div>
+            <div style="font-size:10.5px;color:${i===4?'var(--navy)':'var(--muted)'};margin-top:7px;text-align:center;max-width:88px;line-height:1.3;font-weight:${i===4?'700':'400'}">${s}</div>
+          </div>`).join('')}
+        </div>
+        <div class="cr" style="margin-top:0">
+          <div class="c red"><div style="font-size:11.5px;font-weight:700;color:var(--red);margin-bottom:5px">PSA ≥25 e/ou cT3</div><div class="c-lbl">Biópsia directa (sem RM prévia)</div></div>
+          <div class="c green"><div style="font-size:11.5px;font-weight:700;color:var(--green);margin-bottom:5px">PSA &lt;25 e cT &lt;3</div><div class="c-lbl">RM multiparamétrica → decisão sobre biópsia</div></div>
+        </div>
+      </div>`},
+    {lbl:'Mensagens-chave',render:()=>`
+      <div class="eyebrow">Resumo</div>
+      <div class="slide-title">Mensagens <em>-Chave</em></div>
+      <div class="divider"></div>
+      <ul class="slist" style="max-width:660px">
+        <li><div class="ld dn"></div><span>PSA é um <strong>marcador de risco</strong> — não um teste binário</span></li>
+        <li><div class="ld dt"></div><span>Oferecer rastreio a partir dos <strong>50 anos</strong> (ou antes em grupos de risco)</span></li>
+        <li><div class="ld da"></div><span>Excluir causas confundidoras antes de interpretar (ITU, RAU)</span></li>
+        <li><div class="ld dt"></div><span>PSA 3–10 → repetir em 1–2 meses + PSA livre + eco transrectal</span></li>
+        <li><div class="ld dr"></div><span>PSA &gt;10 ou toque rectal suspeito → <strong>referenciar Urologia</strong></span></li>
+        <li><div class="ld dn"></div><span>Velocidade de PSA — <strong>não acrescenta</strong> informação ao PSA total</span></li>
+      </ul>`}
+  ]}
+];
+
+let all=[],cur=0;
+chapters.forEach(ch=>ch.slides.forEach(sl=>all.push({chId:ch.id,chName:ch.name,...sl})));
+
+function buildSidebar(){
+  const nav=document.getElementById('chap-nav');
+  let html='',idx=0;
+  chapters.forEach(ch=>{
+    html+=`<div class="ch-group"><div class="ch-hdr" id="ch-${ch.id}" data-first="${idx}"><span class="ch-dot"></span>${ch.name}</div><div>`;
+    ch.slides.forEach(()=>{html+=`<button class="sl-btn" id="sb-${idx}" onclick="goTo(${idx})">${all[idx].lbl}</button>`;idx++;});
+    html+=`</div></div>`;
+  });
+  nav.innerHTML=html;
+  document.querySelectorAll('.ch-hdr').forEach(h=>h.addEventListener('click',()=>goTo(parseInt(h.dataset.first))));
+}
+
+function buildSlides(){
+  const main=document.getElementById('main');
+  main.innerHTML='';
+  all.forEach((sl,i)=>{
+    const d=document.createElement('div');
+    d.className='slide'+(i===0?' act':'');d.id=`sl-${i}`;
+    d.innerHTML=sl.render();main.appendChild(d);
+  });
+  document.getElementById('tot').textContent=all.length;
+}
+
+function goTo(n){
+  if(n<0||n>=all.length)return;
+  const prev=document.querySelector('.slide.act');
+  if(prev){prev.classList.remove('act');prev.classList.add('exit');setTimeout(()=>prev.classList.remove('exit'),380)}
+  cur=n;document.getElementById(`sl-${n}`).classList.add('act');updateUI();
+}
+
+function updateUI(){
+  document.getElementById('cur').textContent=cur+1;
+  document.getElementById('progress-fill').style.width=((cur+1)/all.length*100)+'%';
+  document.getElementById('tb-chapter').textContent=all[cur].chName;
+  document.querySelectorAll('.sl-btn').forEach((b,i)=>b.classList.toggle('act',i===cur));
+  const cId=all[cur].chId;
+  document.querySelectorAll('.ch-hdr').forEach(h=>h.classList.toggle('act',h.id===`ch-${cId}`));
+  const ab=document.getElementById(`sb-${cur}`);
+  if(ab)ab.scrollIntoView({block:'nearest'});
+}
+
+document.addEventListener('keydown',e=>{
+  if(['ArrowRight','ArrowDown',' '].includes(e.key)){e.preventDefault();goTo(cur+1)}
+  if(['ArrowLeft','ArrowUp'].includes(e.key)){e.preventDefault();goTo(cur-1)}
+});
+document.getElementById('btn-next').onclick=()=>goTo(cur+1);
+document.getElementById('btn-prev').onclick=()=>goTo(cur-1);
+buildSidebar();buildSlides();updateUI();
+</script>
+</body>
+</html>
