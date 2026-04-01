@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Urologia - Cuidados Partilhados · ULS São João</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+<!-- ══ HEADER ══════════════════════════════════════════════════════════ -->
+<header>
+  <div class="hdr">
+    <a href="index.html" class="logo">
+      <div class="logo-mark">
+        <svg viewBox="0 0 24 24" fill="none">
+          <path d="M12 3C8 3 5 6 5 10c0 5 7 11 7 11s7-6 7-11c0-4-3-7-7-7z"
+                fill="rgba(255,255,255,.15)" stroke="rgba(255,255,255,.7)" stroke-width="1.5"/>
+          <circle cx="12" cy="10" r="2.5" fill="rgba(255,255,255,.8)"/>
+        </svg>
+      </div>
+      <div class="logo-text">
+        <span class="l1">Cuidados Partilhados<span class="clinicos-badge">CLÍNICOS</span></span>
+        <span class="l2">Urologia &amp; MGF · ULS São João</span>
+      </div>
+    </a>
+    <nav>
+      <ul>
+        <li><a href="#biblioteca" class="active">Biblioteca</a></li>
+        <li><a href="#sobre">Sobre</a></li>
+        <li><a href="#contacto" class="nav-cta">Contacto</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<!-- ══ HERO ══════════════════════════════════════════════════════════ -->
+<section class="hero">
+  <div class="hero-inner">
+
+    <!-- Left column -->
+    <div>
+      <div class="hero-tag">
+        <span class="pulse"></span>Conteúdo clínico em actualização contínua
+      </div>
+      <h1>Decisões partilhadas<br>entre <em>Urologia</em><br>e Medicina Familiar</h1>
+      <p class="hero-sub">
+        Algoritmos de decisão, critérios de referenciação e ferramentas práticas
+        baseados em evidência — para usar durante a consulta.
+      </p>
+      <div class="hero-actions" style="margin-bottom:0">
+        <a href="#biblioteca" class="btn-p">
+          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path d="M4 19.5A2.5 2.5 0 016.5 17H20"/>
+            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/>
+          </svg>
+          Ver Biblioteca
+        </a>
+        <a href="#sobre" class="btn-outline">Saber mais</a>
+      </div>
+      <div class="hero-stats">
+        <div class="hs"><div class="num">2</div><div class="lbl">Módulos disponíveis</div></div>
+        <div class="hs"><div class="num">20</div><div class="lbl">Módulos planeados</div></div>
+        <div class="hs"><div class="num">Mar 2026</div><div class="lbl">Última actualização</div></div>
+      </div>
+    </div>
+
+    <!-- Right column — hero panel -->
+    <div class="hero-panel">
+      <div class="hp-label">Potencial Doença Maligna</div>
+
+      <a href="PSAelevado.html" class="hpc mal live">
+        <div class="hpc-ico" style="background:rgba(255,117,117,.15)">🔬</div>
+        <div><div class="hpc-t">PSA Elevado</div><div class="hpc-m">Diagnóstico precoce — Ca Próstata</div></div>
+        <span class="hpc-badge new">NOVO</span>
+      </a>
+
+      <div class="hpc mal dim">
+        <div class="hpc-ico" style="background:rgba(255,117,117,.08)">💧</div>
+        <div><div class="hpc-t">Hematúria</div><div class="hpc-m">Avaliação e referenciação</div></div>
+        <span class="hpc-badge soon">Em breve</span>
+      </div>
+
+      <div class="hpc mal dim">
+        <div class="hpc-ico" style="background:rgba(192,122,26,.08)">🧬</div>
+        <div><div class="hpc-t">Lesões Supra-renais</div><div class="hpc-m">Incidentaloma</div></div>
+        <span class="hpc-badge soon">Em breve</span>
+      </div>
+
+      <div class="hp-label" style="margin-top:4px">Doença Benigna</div>
+
+      <a href="colicarenal.html" class="hpc ben live">
+        <div class="hpc-ico" style="background:rgba(184,74,16,.15)">🪨</div>
+        <div><div class="hpc-t">Cólica Renal</div><div class="hpc-m">Avaliação e tratamento expulsivo</div></div>
+        <span class="hpc-badge new">NOVO</span>
+      </a>
+
+      <div class="hpc ben dim">
+        <div class="hpc-ico" style="background:rgba(127,224,168,.08)">🩺</div>
+        <div><div class="hpc-t">LUTS / HBP</div><div class="hpc-m">Sintomas do Tracto Urinário Baixo</div></div>
+        <span class="hpc-badge soon">Em breve</span>
+      </div>
+
+      <div class="hpc ben dim">
+        <div class="hpc-ico" style="background:rgba(26,86,160,.08)">❤️</div>
+        <div><div class="hpc-t">Disfunção Eréctil</div><div class="hpc-m">Avaliação e abordagem em MGF</div></div>
+        <span class="hpc-badge soon">Em breve</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══ VIEW BAR ══════════════════════════════════════════════════════ -->
+<div class="viewbar" id="biblioteca">
+  <div class="vbar">
+    <span class="vb-label">Vista:</span>
+    <div class="vb-toggle">
+      <button class="vb-btn on" id="vbGrid" onclick="setView('grid')">
+        <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <rect x="3" y="3" width="7" height="7"/>
+          <rect x="14" y="3" width="7" height="7"/>
+          <rect x="3" y="14" width="7" height="7"/>
+          <rect x="14" y="14" width="7" height="7"/>
+        </svg>
+        Biblioteca
+      </button>
+      <button class="vb-btn" id="vbTable" onclick="setView('table')">
+        <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/>
+        </svg>
+        Consulta Rápida
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ MAIN CONTENT ══════════════════════════════════════════════════ -->
+<div class="main">
+
+  <!-- Purpose banner -->
+  <div class="purpose-banner">
+    <div class="pb-icon">🎯</div>
+    <p>O nosso propósito é aumentar os <strong>anos de vida com qualidade</strong> dos doentes
+       com patologia urológica, reduzindo sofrimento evitável e assimetrias no acesso
+       a cuidados diferenciados.</p>
+  </div>
+
+  <!-- ── GRID VIEW ── -->
+  <div id="view-grid">
+
+    <div class="sh">
+      <div>
+        <div class="sh-eyebrow" style="color:var(--red)">Oncologia Urológica</div>
+        <div class="sh-title">Doentes com <em style="color:var(--red)">potencial doença maligna</em></div>
+      </div>
+      <div class="sh-line"></div>
+      <div class="sh-count">7 módulos</div>
+    </div>
+    <div class="cards" id="gridMal"></div>
+
+    <div class="sh">
+      <div>
+        <div class="sh-eyebrow" style="color:var(--green)">Urologia Funcional &amp; Benigna</div>
+        <div class="sh-title">Doentes com <em style="color:var(--green)">doença benigna</em></div>
+      </div>
+      <div class="sh-line"></div>
+      <div class="sh-count">13 módulos</div>
+    </div>
+    <div class="cards" id="gridBen"></div>
+
+  </div>
+
+  <!-- ── TABLE VIEW ── -->
+  <div id="view-table">
+    <div class="sh" style="margin-top:0">
+      <div>
+        <div class="sh-eyebrow" style="color:var(--teal)">Consulta Rápida</div>
+        <div class="sh-title">Todos os módulos — visão de consulta</div>
+      </div>
+      <div class="sh-line"></div>
+      <div class="sh-count" id="tblCount">20 módulos</div>
+    </div>
+    <table class="qtable">
+      <thead>
+        <tr>
+          <th>Módulo</th>
+          <th>Sexo</th>
+          <th>Referenciação</th>
+          <th>Critério</th>
+          <th>Estado</th>
+          <th>Acção</th>
+        </tr>
+      </thead>
+      <tbody id="tblBody"></tbody>
+    </table>
+  </div>
+
+  <!-- ── ABOUT STRIP ── -->
+  <div class="info-strip" id="sobre">
+    <div class="si">
+      <div class="si-ico">📋</div>
+      <div>
+        <h4>Baseado em evidência</h4>
+        <p>Todos os módulos seguem as guidelines EAU 2026 e evidência peer-reviewed publicada.</p>
+      </div>
+    </div>
+    <div class="si">
+      <div class="si-ico">🤝</div>
+      <div>
+        <h4>Decisão partilhada</h4>
+        <p>Algoritmos pensados para facilitar a colaboração MGF ↔ Urologia com critérios claros.</p>
+      </div>
+    </div>
+    <div class="si">
+      <div class="si-ico">🛠</div>
+      <div>
+        <h4>Ferramentas integradas</h4>
+        <p>Algoritmos interactivos de decisão e gerador de cartas de referenciação em cada módulo.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── CONTACT STRIP ── -->
+  <div class="contact-strip" id="contacto">
+    <div class="ci">
+      <div class="si-ico">📞</div>
+      <div>
+        <h4>Contacto para questões urgentes</h4>
+        <p><a href="tel:+351961314163">961 314 163</a></p>
+      </div>
+    </div>
+    <div class="ci">
+      <div class="si-ico">✉️</div>
+      <div>
+        <h4>Email para discussão de casos</h4>
+        <p><a href="mailto:triagem.urologia@ulssjoao.min-saude.pt">triagem.urologia@ulssjoao.min-saude.pt</a></p>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /main -->
+
+<!-- ══ FOOTER ════════════════════════════════════════════════════════ -->
+<footer>
+  <p><strong>Cuidados de Saúde Partilhados — Área Clínica</strong></p>
+  <p style="margin-top:5px">
+    Serviço de Urologia · ULS de São João · Porto
+    &nbsp;·&nbsp;
+    Conteúdo de uso exclusivo para profissionais de saúde
+  </p>
+</footer>
+
+<!-- ══ REFERRAL MODAL ═════════════════════════════════════════════════ -->
+<div class="overlay" id="overlay" onclick="if(event.target===this)closeModal()">
+  <div class="modal">
+    <div class="modal-h">
+      <div class="mh-info">
+        <span class="mh-ico" id="mhIco">📋</span>
+        <div>
+          <div class="mh-ey">Gerador de Referenciação</div>
+          <div class="mh-title" id="mhTitle">—</div>
+        </div>
+      </div>
+      <button class="modal-x" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-b">
+      <div class="sec-lbl">Dados Clínicos</div>
+      <div class="fgrid" id="fgrid"></div>
+      <button class="gen-btn" onclick="genReferral()">
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/>
+          <polyline points="14,2 14,8 20,8"/>
+        </svg>
+        Gerar Carta de Referenciação
+      </button>
+      <div class="out-wrap" id="outWrap">
+        <div class="out-lbl" style="margin-top:14px">Carta gerada — copie para o sistema clínico</div>
+        <div class="out-txt" id="outTxt"></div>
+        <button class="copy-btn" id="copyBtn" onclick="copyRef()">📋 Copiar para clipboard</button>
+      </div>
+    </div>
+    <div class="modal-ft">
+      ⚠️ Sugestão de referenciação gerada automaticamente.
+      Reveja e adapte conforme o contexto clínico antes de enviar.
+    </div>
+  </div>
+</div>
+
+<!-- ══ SCRIPTS ════════════════════════════════════════════════════════ -->
+<script src="js/data.js"></script>
+<script src="js/app.js"></script>
+
+</body>
+</html>
